@@ -1,0 +1,48 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'webcam/style.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Testing Your Mood</title>
+
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'face/resized_rushui_face.png' %}" >
+  <script defer src="{% static 'face/face-api.js' %}"></script>
+  <script defer src="{% static 'face/face-script.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <style>
+    body {
+      background-image: url("{% static 'webcam/images/cliff.jpg' %}");
+      background-size: cover;
+      text-align: center;
+    }
+
+    canvas {
+        position: relative;
+        top: -560px;
+        align-items: center;
+        justify-content: center;
+    }
+  </style>
+</head>
+<body>
+    <div id="container">
+        <video autoplay="true" id="videoElement" width="720" height="560"></video>
+    </div>
+    <div id="wrapper">
+        <label class="switch">
+            <input class="switch-input" type="checkbox"/>
+            <span class="switch-label" data-on="On" data-off="Off"></span> 
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div id="div_1">
+      <button id = 'questionnaire_1'>Log Mood</button>
+    </div>
+    <p style="color:red; font-size:20px; background-color:white; opacity:0.5;"><b>Instruction: Press "Log Mood" while camera is on. After logging in your mood, turn off the camera to go places.</b></p>
+
+</body>
+</html>
+

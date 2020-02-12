@@ -1,0 +1,1 @@
+alert("You current mood is "+localStorage.getItem('q1')+"! Click the icon to see how to get there, and then click anywhere to decide if you want to go.");

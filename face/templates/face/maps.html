@@ -1,0 +1,137 @@
+{% load static %}
+<script defer src="{% static 'face/face-api.js' %}"></script>
+<script defer src="{% static 'face/face-script.js' %}"></script>
+<script defer src="{% static 'face/maps-script.js' %}"></script>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Places To Go</title>
+    <style>
+      html,
+      body,
+      #map {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+    </style>
+    <script src="https://maps.alk.com/api/1.2/alkmaps.js"></script>
+    <script>
+      var map;
+      var route_complete = 0
+      var lon = -75.911736
+        lat = 42.101603
+        zoom = 15;
+      function init() { 
+        ALKMaps.APIKey = "910771335EB6744C9F9449F304EC3FF5";
+
+        map = new ALKMaps.Map("map");
+        var layer = new ALKMaps.Layer.BaseMap("ALK Maps", {}, { displayInLayerSwitcher: false });
+        map.addLayer(layer);
+
+        var routingLayer = new ALKMaps.Layer.Routing( "Route Layer" );
+        map.addLayer(routingLayer);
+        
+        var markerLayer = new ALKMaps.Layer.Markers("Marker Layer");
+        map.addLayer(markerLayer);
+
+        emotion = localStorage.getItem("q1")
+
+        switch(emotion) {
+            case 'happy':
+                nameEmo = "Laveggio Happy Coffee Shop"
+                lonEmo = -75.911736
+                latEmo = 42.101603
+                iconEmo = "{% static 'face/resized_rushui_face.png' %}"
+                break;
+            case 'neutral':
+                nameEmo = "Muder Museum"
+                lonEmo = -75.924556
+                latEmo = 42.102401
+                iconEmo = "{% static 'face/neutral.png' %}"
+                break;
+            case 'sad':
+                nameEmo = "Craft Eat Place"
+                lonEmo = -75.913469
+                latEmo = 42.098367
+                iconEmo = "{% static 'face/sad.png' %}"
+                break;
+            case 'surprised':
+                nameEmo = "Catholic Center"
+                lonEmo = -75.928331
+                latEmo = 42.099458
+                iconEmo = "{% static 'face/surprised.png' %}"
+                break;        
+            default:
+                nameEmo = "Laveggio Default Coffee Shop"
+                lonEmo = -75.911736
+                latEmo = 42.101603
+                iconEmo = "{% static 'face/resized_rushui_face.png' %}"
+                break;
+        }
+        // function getLocation() {
+        //     if (navigator.geolocation) {
+        //         navigator.geolocation.getCurrentPosition(showPosition);
+        //     } 
+        // }
+
+        var stops = [
+            new ALKMaps.LonLat(-75.967774, 42.092563),
+            new ALKMaps.LonLat(lonEmo, latEmo)
+        ];
+        stops = ALKMaps.LonLat.transformArray(stops, new ALKMaps.Projection("EPSG:4326"), map.getProjectionObject());
+
+        var iconFav = new ALKMaps.Icon(href=iconEmo, new ALKMaps.Size(30, 30));
+        var mkrFav = new ALKMaps.Marker(
+          new ALKMaps.LonLat(lonEmo, latEmo ).transform(new ALKMaps.Projection("EPSG:4326"), map.getProjectionObject()),
+          iconFav.clone(),
+          nameEmo,
+          {
+            map: map,
+            mouseOver: true,
+            eventListeners:{
+                  // Show popup when click on the marker icon
+                  "markerclick": function(evt){
+                       route_complete = 1
+                       routingLayer.addRoute({
+                          stops: stops,
+                          functionOptions:{
+                            routeId: "myRoute"
+                          },
+                          routeOptions: {
+                            highwayOnly: false,
+                            tollDiscourage: true
+                          },
+                          reportOptions: {}
+                       });
+                  }
+            }
+          }
+        );
+        markerLayer.addMarker(mkrFav);
+
+        var lonLat = new ALKMaps.LonLat(lon, lat).transform(
+          new ALKMaps.Projection("EPSG:4326"),
+          map.getProjectionObject()
+        );
+        map.setCenter(lonLat, zoom);
+      }
+
+      function klikaj(i) {
+          if (route_complete > 0){
+            if (confirm("Are you going?")) {
+              txt = "You pressed OK!";
+            } else {
+              window.history.back();
+            }
+          }
+      }
+
+    </script>
+  </head>
+  <body onLoad="init()">
+    <div id="map" style="width:100%; height:100%" onclick="klikaj('rad1')"></div>
+  ​  <div id="rad1" style="visibility: hidden">hello world</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+  </body>
+</html>
