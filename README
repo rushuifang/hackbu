@@ -1,1 +1,3 @@
-Face Detection is done by faceapi.js and route calulation is done by Trimble MAPS API.
+  Face Detection is done by faceapi.js and route calulation is done by Trimble MAPS API.
+  face/ is the Django app that detect face expression in face-script.js and send the detected info to <script> in maps.html 
+through localStorage.
