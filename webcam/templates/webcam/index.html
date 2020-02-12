@@ -1,0 +1,26 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'webcam/style.css' %}">
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Where to Go</title>
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'webcam/images/resized_mavi_face.png' %}" >
+</head>
+
+<style> 
+body {
+    background-image: url("{% static 'webcam/images/cliff.jpg' %}");
+    background-size: cover;
+}
+</style>
+
+<body>
+    <div>
+        <a href="http://127.0.0.1:8000/face" class="button1">How Do You Feel?</a>
+    </div>
+</body>
+
+</html>
